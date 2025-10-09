@@ -303,6 +303,11 @@ Transform OdometryCuVSLAM::computeTransform(
     // If we are lost after tracking has begun, return null transform
     // We wait until a reset is triggered.
     if(lost_ && tracking_) {
+        if(info)
+        {
+            info->reg.covariance = cv::Mat::eye(6, 6, CV_64FC1) * 9999.0;
+            info->timeEstimation = timer.ticks();
+        }
         return Transform();
     }
     
